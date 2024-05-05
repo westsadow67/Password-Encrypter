@@ -26,12 +26,12 @@ function PasswordEncode()
     var passwordBackwardsCounter = 0;
     var passwordNum = BigInt(0);
 
-    passwordBackwardsCounter = inputPassword.length - 1;//
-    for (var i = 0; i < inputPassword.length; i++)//
+    passwordBackwardsCounter = inputPassword.length - 1;
+    for (var i = 0; i < inputPassword.length; i++)
     {
-        var inputPasswordValue = BigInt(inputPassword.charCodeAt(i) - asciiMinShift);//
-        passwordNum += inputPasswordValue * numOfLetters ** BigInt(passwordBackwardsCounter);//
-        passwordBackwardsCounter--;//
+        var inputPasswordValue = BigInt(inputPassword.charCodeAt(i) - asciiMinShift);
+        passwordNum += inputPasswordValue * numOfLetters ** BigInt(passwordBackwardsCounter);
+        passwordBackwardsCounter--;
     }
 
     //Get Text Number
@@ -47,8 +47,8 @@ function PasswordEncode()
     }
 
     //Encode
-    var encodeNumber = textNum * passwordNum;//
-    console.log(textNum + " " + passwordNum);//
+    var encodeNumber = textNum * passwordNum;
+    console.log(textNum + " " + passwordNum);
 
     encodeElement.textContent += inputText;
     encodeElement.textContent += " Encoded password -" + inputPassword + ":" + String.fromCharCode(10);
@@ -59,26 +59,26 @@ function PasswordEncode()
 function PasswordDecode() 
 {
     var inputNumber = BigInt(textInputDeElement.value);
-    var inputPassword = passwordInputDeElement.value;//
+    var inputPassword = passwordInputDeElement.value;
 
 
     //Get Password Number
-    var passwordBackwardsCounter = 0;//
-    var passwordNum = BigInt(0);//
+    var passwordBackwardsCounter = 0;
+    var passwordNum = BigInt(0);
 
-    passwordBackwardsCounter = inputPassword.length - 1;//
-    for (var i = 0; i < inputPassword.length; i++)//
+    passwordBackwardsCounter = inputPassword.length - 1;
+    for (var i = 0; i < inputPassword.length; i++)
     {
-        var inputPasswordValue = BigInt(inputPassword.charCodeAt(i) - asciiMinShift);//
-        passwordNum += inputPasswordValue * numOfLetters ** BigInt(passwordBackwardsCounter);//
-        passwordBackwardsCounter--;//
+        var inputPasswordValue = BigInt(inputPassword.charCodeAt(i) - asciiMinShift);
+        passwordNum += inputPasswordValue * numOfLetters ** BigInt(passwordBackwardsCounter);
+        passwordBackwardsCounter--;
     }
 
     //Decode
-    var decodeNumber = inputNumber / passwordNum;//
+    var decodeNumber = inputNumber / passwordNum;
 
     decodeElement.textContent += decodeNumber;
-    decodeElement.textContent += " Decoded Password -" + inputPassword + ":" + String.fromCharCode(10);//
+    decodeElement.textContent += " Decoded Password -" + inputPassword + ":" + String.fromCharCode(10);
 
     var returner = decodeNumber;
     var powerIncrement = 0;
