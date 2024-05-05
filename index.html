@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Encrypter</title>
+    <style>
+        body {margin: 0; padding: 2%;}
+        div{white-space: pre-wrap; word-wrap:break-word;}
+        #passwordLine{display: flex;}
+        h2{margin: 0;}
+        input{margin-left: 1%;}
+
+    </style>
+</head>
+<body>
+    <h1>Password Encrypter.</h1>
+    <div>
+        <h2>Text:</h2>
+        <textarea type="text" id="textInputEn" cols="64" rows="4"></textarea>
+        <div id="passwordLine">
+            <h2>Password:</h2>
+            <input type="text" id="passwordInputEn"></input>
+        </div>
+        <button onclick="PasswordEncode()">Get Encode with Password</button>
+        <p id="encode"></p>
+    </div>
+
+    <div>
+        <h2>Text Number:</h2>
+        <textarea type="Number" id="textInputDe" cols="64" rows="4"></textarea>
+        <div id="passwordLine">
+            <h2>Password:</h2>
+            <input type="text" id="passwordInputDe"></input>
+        </div>
+        <button onclick="PasswordDecode()">Get Decode with Password</button>
+        <p id="decode"></p>
+    </div>
+</body>
+<script src="index.js"></script>
+</html>
