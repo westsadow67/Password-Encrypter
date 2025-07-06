@@ -6,7 +6,7 @@ const textInputDeElement = document.getElementById("textInputDe");
 const passwordInputDeElement = document.getElementById("passwordInputDe");
 const decodeElement = document.getElementById("decode");
 
-//Version 1.1
+//Version 2.0
 
 //ASCII printable characters
 const asciiMinShift = 32;
@@ -48,9 +48,23 @@ function PasswordEncode()
         textBackwardsCounter--;
     }
 
-    //Encode
-    var encodeNumber = textNum * passwordNum;
-    console.log(textNum + " " + passwordNum);
+    //Old Encode Number
+    var oldEncodeNumber = textNum * passwordNum;
+    
+    //Creating the OneTimePad
+    var oldEncodeNumberBinaryLength = oldEncodeNumber.toString(2).length;
+    var passwordNumBinaryLength = passwordNum.toString(2).length;
+    var bigMultNumber = BigInt(oldEncodeNumberBinaryLength**passwordNumBinaryLength);
+    var passwordString = passwordNum.toString();
+    var middleIndex = Math.ceil(passwordString.length / 2);
+    var firstHalfNum = BigInt(passwordString.slice(0, middleIndex));
+    var secondHalfNum = BigInt(passwordString.slice(middleIndex));
+    var oneTimePad = (firstHalfNum * bigMultNumber) + (secondHalfNum * bigMultNumber);
+    var oneTimePadShift = oneTimePad >> BigInt(oneTimePad.toString(2).length - oldEncodeNumberBinaryLength + 1);
+    
+    //Encoding With OneTimePad XOR
+    var encodeNumber = oldEncodeNumber^oneTimePadShift;
+    console.log(encodeNumber);
 
     encodeElement.textContent += inputText;
     encodeElement.textContent += " Encoded password -" + inputPassword + ":" + String.fromCharCode(10);
@@ -76,13 +90,28 @@ function PasswordDecode()
         passwordBackwardsCounter--;
     }
 
-    //Decode
-    var decodeNumber = inputNumber / passwordNum;
+    //ReCreating the OneTimePad
+    var inputNumberBinaryLength = inputNumber.toString(2).length;
+    var passwordNumBinaryLength = passwordNum.toString(2).length;
+    var bigMultNumber = BigInt(inputNumberBinaryLength**passwordNumBinaryLength);
+    var passwordString = passwordNum.toString();
+    var middleIndex = Math.ceil(passwordString.length / 2);
+    var firstHalfNum = BigInt(passwordString.slice(0, middleIndex));
+    var secondHalfNum = BigInt(passwordString.slice(middleIndex));
+    var oneTimePad = (firstHalfNum * bigMultNumber) + (secondHalfNum * bigMultNumber);
+    var oneTimePadShift = oneTimePad >> BigInt(oneTimePad.toString(2).length - inputNumberBinaryLength + 1);
 
-    decodeElement.textContent += decodeNumber;
+    //Encoding With OneTimePad XOR
+    var decodeNumber = inputNumber^oneTimePadShift;
+    console.log(decodeNumber);
+
+    //Decode
+    var oldDecodeNumber = decodeNumber / passwordNum;
+
+    decodeElement.textContent += oldDecodeNumber;
     decodeElement.textContent += " Decoded Password -" + inputPassword + ":" + String.fromCharCode(10);
 
-    var returner = decodeNumber;
+    var returner = oldDecodeNumber;
     var powerIncrement = 0;
     while(returner >= 1)
     {
@@ -92,7 +121,7 @@ function PasswordDecode()
 
     for (var i = powerIncrement; i >= 0; i--)
     {
-        var letterNum = decodeNumber / numOfLetters ** BigInt(i) % numOfLetters;
+        var letterNum = oldDecodeNumber / numOfLetters ** BigInt(i) % numOfLetters;
         decodeElement.textContent += String.fromCharCode(Number(letterNum) + asciiMinShift);
     }
     decodeElement.textContent += String.fromCharCode(10);
